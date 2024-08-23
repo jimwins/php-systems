@@ -21,6 +21,7 @@ echo "===== Organization Members =====\n\n";
 function print_members(string $url, $ctx) {
     $page = 1;
     while ($members = json_decode(file_get_contents($url . '?page=' . $page++, false, $ctx))) {
+        usort($members, function($a, $b) { return strtolower($a->login) <=> strtolower($b->login); } );
         foreach ($members as $member) {
             echo " * [[{$member->html_url}|{$member->login}]]\n";
         }
